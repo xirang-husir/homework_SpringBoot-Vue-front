@@ -12,7 +12,6 @@
           <el-form :model="registerForm" status-icon ref="registerForm" align="center">
             <el-form-item>
               <el-input type="text" v-model="registerForm.username" placeholder="用户名" @blur="checkUsername"></el-input>
-<!--              <el-alert v-if="usernameExists" title="用户名已存在，请选择其他用户名" type="error" show-icon></el-alert>-->
             </el-form-item>
             <el-form-item>
               <el-input type="password" v-model="registerForm.password" show-password placeholder="密码"></el-input>
@@ -58,6 +57,7 @@ export default {
       imageUrl: this.$imageUrl,
       registerForm: {
         username: '',
+        userImage: '',
         password: '',
         confirmPassword: '',
         userAge: null,

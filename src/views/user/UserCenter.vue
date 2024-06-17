@@ -28,11 +28,12 @@
         <div v-if="currentView === 'user-info'">
           <el-card>
             <!--             上传头像 -->
-            <el-upload class="avatar-uploader"
-                       action="http://localhost:9001/front/user/upload"
-                       :show-file-list="false"
-                       :on-success="handleAvatarSuccess"
-                       :before-upload="beforeAvatarUpload">
+            <el-upload
+              class="avatar-uploader"
+              action="http://localhost:9001/front/user/upload"
+              :show-file-list="false"
+              :on-success="handleAvatarSuccess"
+              :before-upload="beforeAvatarUpload">
               <img v-if="avatar" :src="imageUrl + userInfo.userImage" class="avatar" />
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
@@ -164,7 +165,7 @@ export default {
         newPassword: '',
         confirmPassword: ''
       },
-      avatar: ''
+      avatar: '',
     }
   },
   methods: {
@@ -181,12 +182,13 @@ export default {
           break;
       }
     },
-    // 上传图片
+    // 上传成功后
     handleAvatarSuccess(response, file) {
       // 更新用户信息中的头像链接
       this.userInfo.userImage = file.response.data;
       // 创建一个Object URL用于在页面上显示上传的头像图片
       this.avatar = URL.createObjectURL(file.raw);
+
     },
     // 上传之前的校验
     beforeAvatarUpload(file) {
@@ -425,7 +427,6 @@ export default {
 
 .button-group > * {
   margin-left: 5px;
-  /* 按钮之间的间距，根据需要调整 */
 }
 
 
@@ -434,20 +435,24 @@ export default {
 }
 
 .avatar-uploader {
-  display: block;
-  width: 100px;
-  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 178px;
+  height: 178px;
   border: 1px dashed #d9d9d9;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
-  position: relative;
   overflow: hidden;
+  transition: border-color 0.3s ease;
 }
-
+.avatar-uploader:hover {
+  border-color: #409eff;
+}
 .avatar-uploader .el-icon-plus {
-  font-size: 28px;
+  font-size: 35px;
   color: #8c939d;
-  margin: 35px 35px;
+  text-align: center;
 }
 
 .avatar {

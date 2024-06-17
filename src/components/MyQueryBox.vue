@@ -11,7 +11,7 @@
             <el-input v-model="product.queryProductName" placeholder="请输入查询商品名"></el-input>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="goProductList">搜索</el-button>
+            <el-button type="primary" @click="goProductList" icon="el-icon-search">搜索</el-button>
           </el-form-item>
         </el-form>
       </el-col>
