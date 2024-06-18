@@ -17,12 +17,13 @@ export default {
   data() {
     return {
       frontLoginUsername:null,
-      countdown: 10
+      countdown: 10,
+
     };
   },
   created() {
     this.frontLoginUsername = sessionStorage.getItem('frontLoginUsername');
-    this.clearCart();
+    this.clearSelected();
     this.clearSessionStorage();
     this.startCountdown();
   },
@@ -46,34 +47,34 @@ export default {
       clearInterval(this.interval);
       this.returnHome();
     },
-    // 清空购物车
-    clearCart() {
+    // 清空已经购买的商品
+    clearSelected (){
       let _this = this;
-      // 调用清空购物车接口
+      const selectedItems = JSON.parse(sessionStorage.getItem('selectedItems'));
+      // 调用删除已选择商品的接口
       _this.$axios({
-        url: '/front/shoppingCar/clearShopping',
+        url: '/front/shoppingCar/deleteSelected',
         method: 'post',
-        params:{
-          shoppingCarUsername : _this.frontLoginUsername,
-        }
+        data: selectedItems
       }).then(res => {
         if (res.data.status === 200) {
-          _this.$message.success('恭喜完成支付，购物车已清空');
-          _this.loadShoppingCar(); // 刷新购物车
-        } else {
-          // console.log(res);
-          _this.$message.error('清空购物车失败');
+          _this.$message.success('您付款的商品已经从购物车中移除');
+          // _this.loadShoppingCar(); // 刷新购物车
+        }else {
+          console.log(res);
+          _this.$message.error('删除已选择的商品失败');
         }
       }).catch(error => {
-        // _this.$message.error('clear cart error');
+        _this.$message.error('delete error');
       });
-    },
+    }
   },
   beforeDestroy() {
     clearInterval(this.interval);
   },
 
 };
+
 </script>
 
 <style scoped>

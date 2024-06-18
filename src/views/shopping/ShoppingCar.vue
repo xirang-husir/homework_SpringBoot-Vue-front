@@ -33,6 +33,7 @@
       <!-- 操作列 -->
       <el-table-column label="操作" align="center">
         <template slot-scope="scope">
+<!--          删除单个-->
           <el-button type="danger" @click="deleteShopping(scope.row.shoppingCarId)" icon="el-icon-delete" size="small"></el-button>
         </template>
       </el-table-column>
@@ -180,6 +181,9 @@ export default {
     }
     const userAddress = sessionStorage.getItem('userAddressInfo');
     if (userAddress) {
+
+      sessionStorage.setItem('selectedItems', JSON.stringify(selectedItems));
+      // console.log("存在session中的selectedItems：",JSON.parse(sessionStorage.getItem('selectedItems')))
       const orderRequest = {
       orderUsername: this.frontLoginUsername,
       orderAddress: userAddress,
@@ -245,6 +249,7 @@ export default {
     deleteSelectedItems() {
       let _this = this;
       const selectedItems = this.cartItems.filter(item => item.selected);
+      // console.log("正确的selectedItems数据：",selectedItems)
       if (selectedItems.length === 0) {
         this.$message.error('请选择要删除的商品');
         return;
@@ -360,6 +365,7 @@ export default {
   created() {
     this.frontLoginUsername = sessionStorage.getItem('frontLoginUsername')
     this.loadShoppingCar();
+
     // console.log("地址数据：",sessionStorage.getItem('userAddress'))
     // console.log("订单数据：",sessionStorage.getItem('orderData'))
   },
