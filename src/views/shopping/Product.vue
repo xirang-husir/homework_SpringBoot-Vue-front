@@ -104,47 +104,39 @@ export default {
         _this.$message.error(res.data.msg);
       });
     },
+    //加入购物车
     addToCart() {
       let _this = this;
+      // 获取当前登录的用户名
       let currentUsername = sessionStorage.getItem('frontLoginUsername');
       // 只有登录的用户可以添加到购物车
       if (currentUsername !== null && currentUsername.length > 0) {
         _this.$axios({
-          url: 'front/shoppingCar/findShopping',
-          method: 'get',
-          params: {
-            shoppingCarUsername: currentUsername
+          url: 'front/shoppingCar/addToCart',
+          method: 'post',
+          data: {
+            shoppingCarUsername: currentUsername,
+            productId: _this.product.productId,
+            productName: _this.product.productName,
+            productPrice: _this.product.productPrice,
+            productAmount: _this.quantity,
+            productImageName: _this.product.images[0].imagesName
           }
         }).then(res => {
-            _this.$axios({
-              url: 'front/shoppingCar/addToCart',
-              method: 'post',
-              data: {
-                shoppingCarUsername: currentUsername,
-                productId: _this.product.productId,
-                productName: _this.product.productName,
-                productPrice: _this.product.productPrice,
-                productAmount: _this.quantity,
-                productColor: _this.selectedColor,
-                productImageName: _this.product.images[0].imagesName
-              }
-            }).then(res => {
-              console.log("商品的数据",res)
-              if (res.data.status === 200) {
-                _this.$message.success('商品已添加到购物车');
-              } else {
-                _this.$message.error("该商品已经在购物车中，页面将在1秒后跳转到购物车页面");
-                setTimeout(() => {
-                  this.$router.push('/front/shoppingCar');
-                }, 1000);
-              }
-            }).catch(error => {
-              _this.$message.error('添加到购物车出错');
-            });
+          console.log("商品的数据",res)
+          if (res.data.status === 200) {
+            _this.$message.success('商品已添加到购物车');
+          } else {
+            _this.$message.error("该商品已经在购物车中，页面将在1秒后跳转到购物车页面");
+            setTimeout(() => {
+              this.$router.push('/front/shoppingCar');
+            }, 1000);
+          }
         }).catch(error => {
-          _this.$message.error('查询购物车出错');
+          _this.$message.error('添加到购物车出错');
         });
-      } else {
+      }
+      else {
         _this.$message.error('请先登录');
         setTimeout(() => {
           this.$router.push('/front/login');

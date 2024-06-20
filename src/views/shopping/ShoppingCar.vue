@@ -156,7 +156,7 @@ export default {
       let _this = this;
       _this.$axios({
         url: 'front/shoppingCar/updateShopping',
-        method: 'post',
+        method: 'put',
         data: {
           shoppingCarId: shoppingCarId,
           productAmount: productAmount,
@@ -211,9 +211,6 @@ export default {
     });
   } else {
     this.$message.error('请先填写收货信息');
-    // setTimeout(() => {
-    //   this.showAddressDialog();
-    // }, 1200);
   }
 },
 
@@ -228,7 +225,7 @@ export default {
         // 调用删除接口
         _this.$axios({
           url:'/front/shoppingCar/deleteShopping',
-          method:'post',
+          method:'delete',
           data:{
             shoppingCarId:shoppingCarId,
           }
@@ -262,7 +259,7 @@ export default {
         // 调用删除已选择商品的接口
         _this.$axios({
           url: '/front/shoppingCar/deleteSelected',
-          method: 'post',
+          method: 'delete',
           data: selectedItems
         }).then(res => {
           if (res.data.status === 200) {
@@ -290,7 +287,7 @@ export default {
         // 调用清空购物车接口
         _this.$axios({
           url: '/front/shoppingCar/clearShopping',
-          method: 'post',
+          method: 'delete',
           params:{
             shoppingCarUsername : _this.frontLoginUsername,
           }
@@ -345,7 +342,6 @@ export default {
       if (match) {
         // 防止默认的粘贴操作
         event.preventDefault();
-
         // 将匹配的内容分配给表单字段
         this.addressForm.username = match[1];
         this.addressForm.userPhone = match[2];

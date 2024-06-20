@@ -23,6 +23,7 @@ export default {
   },
   created() {
     this.frontLoginUsername = sessionStorage.getItem('frontLoginUsername');
+
     this.clearSelected();
     this.clearSessionStorage();
     this.startCountdown();
@@ -54,12 +55,11 @@ export default {
       // 调用删除已选择商品的接口
       _this.$axios({
         url: '/front/shoppingCar/deleteSelected',
-        method: 'post',
+        method: 'delete',
         data: selectedItems
       }).then(res => {
         if (res.data.status === 200) {
           _this.$message.success('您付款的商品已经从购物车中移除');
-          // _this.loadShoppingCar(); // 刷新购物车
         }else {
           console.log(res);
           _this.$message.error('删除已选择的商品失败');

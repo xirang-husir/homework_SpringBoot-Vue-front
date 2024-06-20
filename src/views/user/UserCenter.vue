@@ -290,6 +290,7 @@ export default {
       console.log("地址选择结果", this.addressForm.userAddress);
     },
     // 执行一键复制地址操作
+    //navigator.clipboard.writeText() 方法是一个涉及浏览器 API 的异步操作
     async copyAddressToClipboard(address) {
       const textToCopy = `收货人：${address.username}，电话：${address.userPhone}，地址：${address.userAddress} ${address.detailAddress}`;
       try {
